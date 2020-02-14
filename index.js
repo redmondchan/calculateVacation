@@ -67,19 +67,53 @@ function christmasVacation(object1, days){
     let endYear = object1.year + 1
     end -= 31 
     end += 1
+
+    let endMonth = object1.month
+    if(endMonth == 12){
+      endMonth = 1
+    } else {
+      endMonth += 1
+    }
+
+    if([4,6,9,11].indexOf(endMonth) > -1){
+      if(end > 30){
+        while(end > 30){
+          endMonth += 1
+          end -= 30
+        }
+      }
+    }
+
+    if([1,3,5,7,8,10,12].indexOf(endMonth) > -1){
+      if(end > 31){
+        while(end > 31){
+          if(endMonth == 12){
+            endMonth = 1
+            endYear += 1
+          } else {
+            endMonth += 1
+          }
+          end -= 31
+        }
+      }
+    }
+
+  
+
+    //checks if vacation ends on weekend, if it does add the weekend to total duration
     let endDay = findDay({"month": 1, "day": end, "year": endYear})
 
     if(endDay == 6 || endDay == 0){
       end += 2
     }
 
-    return `12/${begin}/${object1.year} - 1/${end}/${endYear}`
+    return `12/${begin}/${object1.year} - ${endMonth}/${end}/${endYear}`
   }
   //december always has 31 days
   return `12/${begin}/${object1.year} - 2/${end}/${object1.year}`
 }
 
-christmasVacation(holidays.yr2020[3], 5)
+christmasVacation(holidays.yr2020[3], 30)
 // let x = findDay(holidays.yr2019[0])
 // console.log(x)
 
