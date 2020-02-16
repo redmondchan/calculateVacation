@@ -43,6 +43,58 @@ function findDay(object){
   return day.getDay()
 }
 
+function endDate(month, days, year){
+ let leapYear = false;
+
+ if(year%4 ==0 && year%100 == 0 && year%400 == 0){
+   leapYear = true
+ } else if (year%4 == 0 && year%100 != 0){
+   leapYear = true
+ }
+ console.log(leapYear)
+ console.log(days)
+
+ if(month == 2){
+   if(leapYear == true){
+     if(days > 29){
+       days -= 29 
+       month += 1
+       return test(month, days, year)
+     } else {
+       `${month}/${days}/${year}`
+     }
+   } else {
+     if(days > 28){
+       days -= 28
+       month += 1
+       return test(month, days, year)
+     } else {
+       return `${month}/${days}/${year}`
+     }
+   }
+ }
+  
+  if([4, 6, 9, 11].indexOf(month) > -1){
+    if(days > 30){
+      days -= 30
+      month += 1
+      return test(month, days, year)
+    }else {
+      return `${month}/${days}`
+    }
+  }
+
+  if([1,3,5,7,8,10,12].indexOf(month) > -1){
+    if(days > 31){
+      days -= 31
+      month += 1
+      return test(month, days, year)
+    } else {
+      return `${month}/${days}`
+    }
+  }
+}
+
 function mondayHolidays(object, days){
   let weekends = days/5
   let begin = (object.day - 2)
@@ -51,67 +103,67 @@ function mondayHolidays(object, days){
   return `${begin} - ${end}`
 }
 
-function christmasVacation(object1, days){
-  let weekends = days/5
-  let begin = 0
-  let day = findDay(object1)
-  let result = ""
+// function christmasVacation(object1, days){
+//   let weekends = days/5
+//   let begin = 0
+//   let day = findDay(object1)
+//   let result = ""
 
-  if(findDay == 1){
-    begin = object1.day - 2
-  } else {
-    begin = object1.day
-  }
-  let end = (object1.day) + (weekends * 2) + days
-  if(end > 31){
-    let endYear = object1.year + 1
-    end -= 31 
-    end += 1
+//   if(findDay == 1){
+//     begin = object1.day - 2
+//   } else {
+//     begin = object1.day
+//   }
+//   let end = (object1.day) + (weekends * 2) + days
+//   if(end > 31){
+//     let endYear = object1.year + 1
+//     end -= 31 
+//     end += 1
 
-    let endMonth = object1.month
-    if(endMonth == 12){
-      endMonth = 1
-    } else {
-      endMonth += 1
-    }
+//     let endMonth = object1.month
+//     if(endMonth == 12){
+//       endMonth = 1
+//     } else {
+//       endMonth += 1
+//     }
 
-    if([4,6,9,11].indexOf(endMonth) > -1){
-      if(end > 30){
-        while(end > 30){
-          endMonth += 1
-          end -= 30
-        }
-      }
-    }
+//     if([4,6,9,11].indexOf(endMonth) > -1){
+//       if(end > 30){
+//         while(end > 30){
+//           endMonth += 1
+//           end -= 30
+//         }
+//       }
+//     }
 
-    if([1,3,5,7,8,10,12].indexOf(endMonth) > -1){
-      if(end > 31){
-        while(end > 31){
-          if(endMonth == 12){
-            endMonth = 1
-            endYear += 1
-          } else {
-            endMonth += 1
-          }
-          end -= 31
-        }
-      }
-    }
+//     if([1,3,5,7,8,10,12].indexOf(endMonth) > -1){
+//       if(end > 31){
+//         while(end > 31){
+//           if(endMonth == 12){
+//             endMonth = 1
+//             endYear += 1
+//           } else {
+//             endMonth += 1
+//           }
+//           end -= 31
+//         }
+//       }
+//     }
 
   
 
-    //checks if vacation ends on weekend, if it does add the weekend to total duration
-    let endDay = findDay({"month": 1, "day": end, "year": endYear})
+//     //checks if vacation ends on weekend, if it does add the weekend to total duration
+//     let endDay = findDay({"month": 1, "day": end, "year": endYear})
 
-    if(endDay == 6 || endDay == 0){
-      end += 2
-    }
+//     if(endDay == 6 || endDay == 0){
+//       end += 2
+//     }
 
-    return `12/${begin}/${object1.year} - ${endMonth}/${end}/${endYear}`
-  }
-  //december always has 31 days
-  return `12/${begin}/${object1.year} - 2/${end}/${object1.year}`
-}
+//     return `12/${begin}/${object1.year} - ${endMonth}/${end}/${endYear}`
+//   }
+//   //december always has 31 days
+//   return `12/${begin}/${object1.year} - 2/${end}/${object1.year}`
+// }
 
 christmasVacation(holidays.yr2020[3], 30)
 // let x = findDay(holidays.yr2019[0])
